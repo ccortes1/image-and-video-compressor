@@ -7,16 +7,16 @@ import subprocess
 # own
 import compresion
 
-DIRECTORIES = './pruebas'
+DIRECTORIES = '.'
 
 def compression_system(direc):
     """ gestion of compression """
     FORMATS = ['.mp4', '.jpg', '.png', 'jpg', 'jpeg']
     for formato in FORMATS:
-        print(f'find {direc} -name "*{formato}" -mtime -1')
         files = subprocess.run([f'find {direc} -name "*{formato}" -mtime -1'], stdout=subprocess.PIPE, shell=True)
         files = str(files.stdout)[2:-1].split('\\n')[0:-1]
-
+        print(f'find {direc} -name "*{formato}" -mtime -1')
+        print(files)
         for file in files:
 
             f = file.split('/')[-1]
