@@ -8,7 +8,7 @@ def change_file(name_file, new_name, direct):
     if os.path.isfile(f'{direct}/{new_name}'):
         subprocess.run(['rm', f'{direct}/{name_file}'])
         subprocess.run(['mv', f'{direct}/{new_name}', f'{direct}/{name_file}'])
-        print('compresion de video terminada')
+        print('compresion terminada')
 
     else:
         print('No se puedo completar la compresion')
