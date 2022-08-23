@@ -1,34 +1,32 @@
 """ compression of multimedia """
-
 # standard
 from datetime import datetime
 import subprocess
-import os
+
 
 # own
 import compresion
 
-DIRECTORIES = ['./pruebas']
+DIRECTORIES = './pruebas'
 
 def compression_system(direc):
     """ gestion of compression """
-    # files = os.listdir(direc)
-    files = subprocess.run([f'find {direc} -type f -mtime -1'], stdout=subprocess.PIPE, shell=True)
-    files = str(files.stdout).split('\\')
-    list_files = []
-    for file in files:
-        list_files.append(file.split('/')[-1])
-        print(file.split('/')[-1])
-    print(list_files)
+    FORMATS = ['.mp4', '.jpg', '.png', 'jpg', 'jpeg']
+    for formato in FORMATS:
+        print(f'find {direc} -name "*{formato}" -mtime -1')
+        files = subprocess.run([f'find {direc} -name "*{formato}" -mtime -1'], stdout=subprocess.PIPE, shell=True)
+        files = str(files.stdout)[2:-1].split('\\n')[0:-1]
 
-    for file in list_files:
-        if os.path.isfile(os.path.join(direc, file)) and file.endswith(('.jpg', '.png', 'jpg', 'jpeg')):
-            compresion.image_compression(file, direc)
-        elif os.path.isfile(os.path.join(direc, file)) and file.endswith('.mp4'):
-            compresion.video_compression(file, direc)
-    
+        for file in files:
+
+            f = file.split('/')[-1]
+            directorio = ('/').join(file.split('/')[0:-1])
+            if formato == '.mp4':
+                compresion.video_compression(f, directorio)
+            else:
+                compresion.image_compression(f, directorio)
+
 
 if __name__ == '__main__':
 
-    for directory in DIRECTORIES:
-        compression_system(directory)
+    compression_system(DIRECTORIES)
